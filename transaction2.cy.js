@@ -1,6 +1,8 @@
 describe('Transaction2', () => {
     //Time-based attack (Blind SQL) with valid data
     it('Testing for retrieval of information and blind sql attack', () => {
+        const startTime = performance.now();
+        //performace.now() returns the timestamp in milliseconds
         cy.task(
             'queryDb', {
                 query: `SELECT *, SLEEP(5) as delay FROM bank.transaction WHERE transactionId = 12;`,
@@ -12,6 +14,9 @@ describe('Transaction2', () => {
             expect(transaction['withdrawal']).to.equal('20000.00')
             expect(transaction.amount).to.equal((transaction['deposit'] - transaction['withdrawal']).toFixed(2));
             expect(transaction.description).to.equal('ATM Withdrawal')
+            const endTime = performance.now();
+            const timetaken = endTime - startTime;
+            expect(timetaken).to.be.greaterThan(5000);
         });
     })
     //Time-based attack (Blind SQL) with invalid data
