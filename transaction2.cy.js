@@ -6,6 +6,12 @@ describe('Transaction2', () => {
                 query: `SELECT *, SLEEP(5) as delay FROM bank.transaction WHERE transactionId = 12;`,
             }).then((result) => {
             expect(result.length).to.equal(1);
+            const transaction=result[0];
+            expect(transaction.transactionId).to.equal(12)
+            expect(transaction['deposit']).to.equal('40000.00')
+            expect(transaction['withdrawal']).to.equal('20000.00')
+            expect(transaction.amount).to.equal((transaction['deposit'] - transaction['withdrawal']).toFixed(2));
+            expect(transaction.description).to.equal('ATM Withdrawal')
         });
     })
     //Time-based attack (Blind SQL) with invalid data
@@ -18,7 +24,7 @@ describe('Transaction2', () => {
             expect(result.length).to.equal(0);
         });
     })
-    //Null-based attack
+    //Null-based and Time-based combined attack
     it('Testing for retrieval of information and null sql attack', () => {
         const data='NULL--'
         cy.task(
