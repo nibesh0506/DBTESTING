@@ -41,4 +41,23 @@ describe('Transaction2', () => {
             expect(result.length).to.be.greaterThan(0);
         });
     })
+    it.only('should have the expected data in the database', () => {
+        cy.task('queryDb', {
+            query: `SELECT transactionId, deposit, withdrawal, amount, description, cust_id, passbook_id FROM bank.transaction WHERE transactionId = ?`,
+            values: [3]
+        }).then((result) => {
+            const expected = [
+                {
+                    transactionId: 3,
+                    deposit: '15000.00',
+                    withdrawal: '0.00',
+                    amount: '15000.00',
+                    description: 'Bonus deposit',
+                    cust_id: 1001,
+                    passbook_id: 3,
+                }
+            ];
+            expect(JSON.stringify(result)).to.equal(JSON.stringify(expected));
+        });
+    });
 })
