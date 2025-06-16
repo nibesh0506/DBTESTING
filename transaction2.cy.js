@@ -41,6 +41,7 @@ describe('Transaction2', () => {
             expect(result.length).to.be.greaterThan(0);
         });
     })
+    //can check the data integrity in this format by providing it in a array 
     it.only('should have the expected data in the database', () => {
         cy.task('queryDb', {
             query: `SELECT transactionId, deposit, withdrawal, amount, description, cust_id, passbook_id FROM bank.transaction WHERE transactionId = ?`,
