@@ -19,6 +19,8 @@ describe('Transaction2', () => {
             expect(timetaken).to.be.greaterThan(5000);
         });
     })
+    //we can also use expect(result).to.deep.equal([{
+    // }]) but this doesn't work for this'
     //Time-based attack (Blind SQL) with invalid data
     it('Testing for retrieval of information and blind sql attack by sending invalid data', () => {
         const maliciousInput = `' OR '1'='1`;
